@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confession Letter</title>
+    <title>Special Confession</title>
     <style>
         body {
             background-color: #fce4ec;
@@ -14,6 +14,7 @@
             margin: 0;
             font-family: sans-serif;
             overflow: hidden;
+            position: relative;
         }
 
         .card {
@@ -22,26 +23,40 @@
             border-radius: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             text-align: center;
-            width: 280px;
+            width: 290px;
             position: relative;
+            z-index: 10;
         }
 
+        /*💐🌷 */
         .sticker {
             font-size: 65px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             animation: pulse 1.5s infinite alternate;
         }
 
         @keyframes pulse {
             0% { transform: scale(1); }
-            100% { transform: scale(1.1); }
+            100% { transform: scale(1.15); }
+        }
+
+        .step-tag {
+            font-size: 12px;
+            color: #ff4081;
+            font-weight: bold;
+            background: #ffe4ec;
+            padding: 4px 12px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 10px;
         }
 
         h2 {
-            font-size: 18px;
+            font-size: 17px;
             color: #333;
             margin-bottom: 25px;
             line-height: 1.5;
+            min-height: 50px;
         }
 
         .btn-group {
@@ -54,23 +69,21 @@
         }
 
         button {
-            padding: 10px 20px;
+            padding: 10px 22px;
             font-size: 15px;
             font-weight: bold;
             border: none;
             border-radius: 20px;
             cursor: pointer;
-            transition: transform 0.1s;
+            transition: all 0.2s ease;
         }
 
-        /* ဘယ်ဘက် No ခလုတ် */
         #noBtn {
             background-color: #f0f0f0;
             color: #666;
             z-index: 100;
         }
 
-        /* ညာဘက် Yes ခလုတ် */
         #yesBtn {
             background-color: #ff4081;
             color: white;
@@ -86,28 +99,50 @@
             color: #444;
             line-height: 1.6;
         }
+
+        /* အသဲပုံ မိုးစက်ကျသည့် Animation */
+        .heart-rain {
+            position: fixed;
+            top: -10px;
+            font-size: 20px;
+            color: #ff4081;
+            user-select: none;
+            pointer-events: none;
+            z-index: 1000;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
 
     <div class="card" id="questionCard">
-        <div class="sticker">🥺</div>
+        <span class="step-tag" id="stepTag">Step 1 / 5</span>
         
-        <h2>ႁၢႆၸႂ်လမ်လႆႈယဝ်ႉၼႃႈတူဝ်လဵၵ်ႉဝေ?</h2>
+        <div class="sticker" id="sticker">💖🥺💖</div>
+        
+        <h2 id="questionText"> ႁဝ်းမီးၵႂၢမ်းၼႂ်းၸႂ်ၶႂ်ႈလၢတ်ႈၼေသူ ယိူၼ်ႉၸႂ်ထွမ်ႇပၼ်လႆႈယူႇႁိုဝ်?</h2>
         
         <div class="btn-group">
-            <button id="noBtn">ဢမ်ႇႁၢႆ ❌</button>
-            <button id="yesBtn">ႁၢႆယဝ်ႉ ❤️</button>
+            <button id="noBtn">❌ဢမ်ႇ ❌</button>
+            <button id="yesBtn">ဢေႃႈၶႃႈ ❤️</button>
         </div>
     </div>
 
     <div class="card hidden" id="letterCard">
         <div class="sticker">💌</div>
-        <h2 style="color: #ff4081;">Confession Letter</h2>
+        <h2 style="color: #ff4081; min-height: auto;">Confession Letter</h2>
         <div class="letter-content">
             <p>
-               😜 ဝႃႈယူႇၼႃႇ ၼွင်ႉဢမ်ႇလႆႈၸႂ်လမ်ပီႈၼႆ ပီႈႁူႉယူႇ
-                ၼွင်ႉၼႆႉလီႁၵ်ႉထူၼ်ႈယဝ်ႉ။ 😜
+                ၶွပ်ႈၸႂ်တီႈယွမ်းႁပ်ႉဢဝ်တၢင်းႁၵ်ႉပီႈၼႃ...<br>
+               ပေႃးဝၼ်းၼိုင်ႈ ႁဝ်းၶႂ်ႈယူႇႁိမ်းၸမ်သူသေယဝ်ႉ တူၺ်းထိုင်သူ...<br>
+                ႁဝ်းႁၵ်ႉသူ တေႉတေဢေႃႈၼႃ။ ❤️
             </p>
         </div>
     </div>
@@ -117,50 +152,143 @@
         const yesBtn = document.getElementById('yesBtn');
         const questionCard = document.getElementById('questionCard');
         const letterCard = document.getElementById('letterCard');
+        
+        const stepTag = document.getElementById('stepTag');
+        const sticker = document.getElementById('sticker');
+        const questionText = document.getElementById('questionText');
 
-        // ပြောင်းချင်တဲ့ စာသား ၅ ခု (ကြိုက်သလို ပြင်ရေးနိုင်ပါတယ်)
-        const messages = [
-            "ၸႂ်လမ်တေႉတေႉႁႃႉ? 🥺",
-            "ဝူၼ်ႉတူၺ်းလီလီၵွၼ်ႇ... 😥",
-            "ႁၢႆၸႂ်လမ်သေၼႃႈ... 😭",
-            "လီၵၼ်ၶိုၼ်းလႃႈ... 😭❤️",
-            "ၼဵၵ်း ဢမ်ႇၸႂ်လမ်သေလႃႈ! 🥺"
+        // အဆင့် (၅) ဆင့် စာရင်း
+        const steps = [
+            {
+                tag: "Step 1 / 5",
+                sticker: "💖🥺💖",
+                question: "ႁဝ်းမီးၵႂၢမ်းၼႂ်းၸႂ်ၶႂ်ႈလၢတ်ႈသူ ယိူၼ်ႉၸႂ်ထွမ်ႇပၼ်လႆႈယူႇႁိုဝ်?",
+                yesText: "လႆႈဢေႃႈ ❤️",
+                noText: "ဢမ်ႇ ❌"
+            },
+            {
+                tag: "Step 2 / 5",
+                sticker: "😜✨",
+                question: "ႁဝ်းလၵ်ႉလႆႈၸႂ်သူဢေႃႈ သူၸွင်ႇၽွမ်ႉၸွမ်းႁဝ်းႁႃႉ? ",
+                yesText: "ၽွမ်ႉဢေႃႈ ❤️",
+                noText: "ဢမ်ႇၽွမ်ႉ ❌"
+            },
+            {
+                tag: "Step 3 / 5",
+                sticker: "🤏🥹",
+                question: "သူၵေႃႈလႆႈၸႂ်ႁဝ်း မိူၼ်ၵၼ်ယူႇႁိုဝ်? ",
+                yesText: "ဢေႃႈၶႃႈ ❤️",
+                noText: "ဢမ်ႇ ❌"
+            },
+            {
+                tag: "Step 4 / 5",
+                sticker: "💬💓",
+                question: "ပေႃးၼၼ်ၵေႃႈ ပဵၼ်ၵေႃႈႁၵ်ႉၵၼ် တၢင်းပီႈ''ၼႃႈ?",
+                yesText: "ဢေႃႈၶႃႈ ❤️",
+                noText: "ဢမ်ႇ ❌"
+            },
+            {
+                tag: "Step 5 / 5 (နောက်ဆုံး)",
+                sticker: "💍🌹❤️",
+                question: "ဝၼ်းၼိုင်ႈ ပီႈတေမိူဝ်ႈထၢမ်ၼွင်ႉၼႃႈ ၸွင်ႇၽွမ်ႉႁိုဝ်?",
+                yesText: "ၽွမ်ႉဢေႃႈ ❤️",
+                noText: "ဢမ်ႇ ❌"
+            }
         ];
 
-        let clickCount = 0;
+        let currentStep = ဢမ်ႇၽွမ်ႉ;
+        let step2Scale = ယုမ်ႇၸႂ်လႆႈယဝ်ႉႁႃႉ;
+        let step3Clicks = ပီႈတေႁႆႈၼႃႈ;
+        let step3Scale = ဝူၼ်ႉတူၺ်းလီလီၵွၼ်ႇ;
+        let step4Messages = ["ၽွမ်ႉသေလႃႈ🥺", "ၼႃၼႃ 💔", "ၵမ်ႉတေႁႆႈယဝ်ႉ😭", "ၼႃၼႃ❤️"];
+        let step4Index = 0;
 
-        // No ခလုတ် ပြေးရန် နှင့် စာသားပြောင်းရန် Function
-        function handleNoInteraction(e) {
-            if (e) e.preventDefault(); // ဖုန်းမှာ နှိပ်မရအောင် တားဆီးပေးသည်
-
-            // ၁။ အနီးအနား လွတ်အောင် ပြေးမည်
-            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
-            
-            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
-            
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = `${randomX}px`;
-            noBtn.style.top = `${randomY}px`;
-
-            // ၂။ ၅ ခါ မပြည့်မချင်း စာသား ပြောင်းပေးမည်
-            if (clickCount < messages.length) {
-                noBtn.innerText = messages[clickCount];
-                clickCount++;
+        // No ခလုတ် လွတ်အောင် ပြေးသည့် Function (Step 1 အတွက်)
+        function escapeNoButton(e) {
+            if (currentStep === 0) {
+                if (e) e.preventDefault();
+                const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+                const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+                const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+                const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+                
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = `${randomX}px`;
+                noBtn.style.top = `${randomY}px`;
             }
         }
 
-        // Mouse တင်ရင် သို့မဟုတ် ဖုန်းထဲမှာ ထိလိုက်ရင် အလုပ်လုပ်မည်
-        noBtn.addEventListener('mouseover', handleNoInteraction);
-        noBtn.addEventListener('touchstart', handleNoInteraction);
-        noBtn.addEventListener('click', handleNoInteraction);
+        noBtn.addEventListener('mouseover', escapeNoButton);
+        noBtn.addEventListener('touchstart', escapeNoButton);
 
-        // Yes ခလုတ် နှိပ်လျှင် ယေး...ၼွင်ႉႁၢႆၸႂ်လမ်ယဝ်ႉ ပေါ်လာမည်
-        yesBtn.addEventListener('click', () => {
-            questionCard.classList.add('hidden');
-            letterCard.classList.remove('hidden');
+        // No ခလုတ် နှိပ်သည့်အခါ အဆင့်အလိုက် အလုပ်လုပ်ခြင်း
+        noBtn.addEventListener('click', () => {
+            // Step 2: No နှိပ်တိုင်း Yes ကြီးလာမည်
+            if (currentStep === 1) {
+                step2Scale += 0.3;
+                yesBtn.style.transform = `scale(${step2Scale})`;
+            } 
+            // Step 3: No နှိပ်တိုင်း သေးသွားပြီး ၅ ခါနှိပ်ရင် ပျောက်မည်
+            else if (currentStep === 2) {
+                step3Clicks++;
+                step3Scale -= 0.18;
+                if (step3Clicks >= 5) {
+                    noBtn.style.display = 'none';
+                } else {
+                    noBtn.style.transform = `scale(${step3Scale})`;
+                }
+            }
+            // Step 4: No နှိပ်ရင် စာသားပြောင်းမည်
+            else if (currentStep === 3) {
+                if (step4Index < step4Messages.length) {
+                    noBtn.innerText = step4Messages[step4Index];
+                    step4Index++;
+                }
+            }
         });
+
+        // Yes နှိပ်ရင် နောက်တစ်ဆင့် တက်ခြင်း
+        yesBtn.addEventListener('click', () => {
+            currentStep++;
+
+            // ခလုတ် Styling များကို မူလအတိုင်း ပြန်ပြင်ခြင်း
+            noBtn.style.position = 'static';
+            noBtn.style.display = 'inline-block';
+            noBtn.style.transform = 'scale(1)';
+            yesBtn.style.transform = 'scale(1)';
+
+            if (currentStep < steps.length) {
+                // အဆင့်အသစ်သို့ ပြောင်းခြင်း
+                stepTag.innerText = steps[currentStep].tag;
+                sticker.innerText = steps[currentStep].sticker;
+                questionText.innerText = steps[currentStep].question;
+                yesBtn.innerText = steps[currentStep].yesText;
+                noBtn.innerText = steps[currentStep].noText;
+            } else {
+                // နောက်ဆုံးအဆင့်ပြီးပါက မိုးစက်မိုးရွာကျပြီး Letter ပြခြင်း
+                questionCard.classList.add('hidden');
+                letterCard.classList.remove('hidden');
+                startHeartRain();
+            }
+        });
+
+        // အသဲပုံ မိုးရွာသည့် Function
+        function startHeartRain() {
+            const hearts = ['❤️', '💖', '💗', '💕', '🌹', '✨'];
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart-rain');
+                heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = Math.random() * 2 + 3 + 's'; // ၃ စက္ကန့်မှ ၅ စက္ကန့်အထိ
+                heart.style.fontSize = Math.random() * 15 + 15 + 'px';
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
+            }, 150);
+        }
     </script>
 
 </body>
