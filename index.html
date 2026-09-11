@@ -28,7 +28,6 @@
             z-index: 10;
         }
 
-        /*💐🌷 */
         .sticker {
             font-size: 65px;
             margin-bottom: 10px;
@@ -76,6 +75,7 @@
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.2s ease;
+            touch-action: manipulation;
         }
 
         #noBtn {
@@ -100,7 +100,6 @@
             line-height: 1.6;
         }
 
-        /* အသဲပုံ မိုးစက်ကျသည့် Animation */
         .heart-rain {
             position: fixed;
             top: -10px;
@@ -124,14 +123,12 @@
 
     <div class="card" id="questionCard">
         <span class="step-tag" id="stepTag">Step 1 / 5</span>
-        
         <div class="sticker" id="sticker">💖🥺💖</div>
-        
-        <h2 id="questionText"> ႁဝ်းမီးၵႂၢမ်းၼႂ်းၸႂ်ၶႂ်ႈလၢတ်ႈၼေသူ ယိူၼ်ႉၸႂ်ထွမ်ႇပၼ်လႆႈယူႇႁိုဝ်?</h2>
+        <h2 id="questionText">ကိုယ့်ကို တစ်ခုလောက် မေးခွင့်ပြုမလား?</h2>
         
         <div class="btn-group">
-            <button id="noBtn">❌ဢမ်ႇ ❌</button>
-            <button id="yesBtn">ဢေႃႈၶႃႈ ❤️</button>
+            <button id="noBtn">No ❌</button>
+            <button id="yesBtn">Yes ❤️</button>
         </div>
     </div>
 
@@ -140,9 +137,9 @@
         <h2 style="color: #ff4081; min-height: auto;">Confession Letter</h2>
         <div class="letter-content">
             <p>
-                ၶွပ်ႈၸႂ်တီႈယွမ်းႁပ်ႉဢဝ်တၢင်းႁၵ်ႉပီႈၼႃ...<br>
-               ပေႃးဝၼ်းၼိုင်ႈ ႁဝ်းၶႂ်ႈယူႇႁိမ်းၸမ်သူသေယဝ်ႉ တူၺ်းထိုင်သူ...<br>
-                ႁဝ်းႁၵ်ႉသူ တေႉတေဢေႃႈၼႃ။ ❤️
+                အဆင့်ဆင့် နှိပ်ပြီး ဝင်လာပေးလို့ ကျေးဇူးပါနော်...<br>
+                တစ်နေ့နေ့မှာ မင်းနဲ့ဘဝတစ်ခုအတူတူ တည်ဆောက်ချင်လို့...<br>
+                မင်းကို ကိုယ် အရမ်းချစ်တယ်။ ❤️
             </p>
         </div>
     </div>
@@ -157,56 +154,54 @@
         const sticker = document.getElementById('sticker');
         const questionText = document.getElementById('questionText');
 
-        // အဆင့် (၅) ဆင့် စာရင်း
         const steps = [
             {
                 tag: "Step 1 / 5",
                 sticker: "💖🥺💖",
-                question: "ႁဝ်းမီးၵႂၢမ်းၼႂ်းၸႂ်ၶႂ်ႈလၢတ်ႈသူ ယိူၼ်ႉၸႂ်ထွမ်ႇပၼ်လႆႈယူႇႁိုဝ်?",
-                yesText: "လႆႈဢေႃႈ ❤️",
-                noText: "ဢမ်ႇ ❌"
+                question: "ကိုယ့်ကို တစ်ခုလောက် မေးခွင့်ပြုမလား?",
+                yesText: "Yes ❤️",
+                noText: "No ❌"
             },
             {
                 tag: "Step 2 / 5",
                 sticker: "😜✨",
-                question: "ႁဝ်းလၵ်ႉလႆႈၸႂ်သူဢေႃႈ သူၸွင်ႇၽွမ်ႉၸွမ်းႁဝ်းႁႃႉ? ",
-                yesText: "ၽွမ်ႉဢေႃႈ ❤️",
-                noText: "ဢမ်ႇၽွမ်ႉ ❌"
+                question: "No ကို နှိပ်ကြည့်ပါဦး... (Yes ကြီးလာလိမ့်မယ်!)",
+                yesText: "Yes ❤️",
+                noText: "No ❌"
             },
             {
                 tag: "Step 3 / 5",
                 sticker: "🤏🥹",
-                question: "သူၵေႃႈလႆႈၸႂ်ႁဝ်း မိူၼ်ၵၼ်ယူႇႁိုဝ်? ",
-                yesText: "ဢေႃႈၶႃႈ ❤️",
-                noText: "ဢမ်ႇ ❌"
+                question: "အခု No ကို ၅ ခါနှိပ်ရင် No ပျောက်သွားမယ်!",
+                yesText: "Yes ❤️",
+                noText: "No ❌"
             },
             {
                 tag: "Step 4 / 5",
                 sticker: "💬💓",
-                question: "ပေႃးၼၼ်ၵေႃႈ ပဵၼ်ၵေႃႈႁၵ်ႉၵၼ် တၢင်းပီႈ''ၼႃႈ?",
-                yesText: "ဢေႃႈၶႃႈ ❤️",
-                noText: "ဢမ်ႇ ❌"
+                question: "ဒါဆိုရင် စကားတွေ အမြဲတမ်း အတူတူ ပြောချင်လား?",
+                yesText: "Yes ❤️",
+                noText: "No ❌"
             },
             {
                 tag: "Step 5 / 5 (နောက်ဆုံး)",
                 sticker: "💍🌹❤️",
-                question: "ဝၼ်းၼိုင်ႈ ပီႈတေမိူဝ်ႈထၢမ်ၼွင်ႉၼႃႈ ၸွင်ႇၽွမ်ႉႁိုဝ်?",
-                yesText: "ၽွမ်ႉဢေႃႈ ❤️",
-                noText: "ဢမ်ႇ ❌"
+                question: "နောက်ဆုံး မေးခွန်းပါ... ကိုယ့်ရည်းစားလေး ဖြစ်ပေးမလား?",
+                yesText: "Yes ❤️",
+                noText: "No ❌"
             }
         ];
 
-        let currentStep = ဢမ်ႇၽွမ်ႉ;
-        let step2Scale = ယုမ်ႇၸႂ်လႆႈယဝ်ႉႁႃႉ;
-        let step3Clicks = ပီႈတေႁႆႈၼႃႈ;
-        let step3Scale = ဝူၼ်ႉတူၺ်းလီလီၵွၼ်ႇ;
-        let step4Messages = ["ၽွမ်ႉသေလႃႈ🥺", "ၼႃၼႃ 💔", "ၵမ်ႉတေႁႆႈယဝ်ႉ😭", "ၼႃၼႃ❤️"];
+        let currentStep = 0;
+        let step2Scale = 1;
+        let step3Clicks = 0;
+        let step3Scale = 1;
+        let step4Messages = ["မလုပ်ပါနဲ့နော် 🥺", "သေချာ စဉ်းစားပါဦး 💔", "ငိုတော့မှာနော် 😭", "Yes ပဲ နှိပ်ပါတော့ ❤️"];
         let step4Index = 0;
 
-        // No ခလုတ် လွတ်အောင် ပြေးသည့် Function (Step 1 အတွက်)
-        function escapeNoButton(e) {
+        // Step 1 အတွက် ဖုန်းမှာ ထိရင် / mouse တင်ရင် ပြေးမည့် function
+        function moveNoButton() {
             if (currentStep === 0) {
-                if (e) e.preventDefault();
                 const maxX = window.innerWidth - noBtn.offsetWidth - 20;
                 const maxY = window.innerHeight - noBtn.offsetHeight - 20;
                 const randomX = Math.max(20, Math.floor(Math.random() * maxX));
@@ -218,17 +213,23 @@
             }
         }
 
-        noBtn.addEventListener('mouseover', escapeNoButton);
-        noBtn.addEventListener('touchstart', escapeNoButton);
+        noBtn.addEventListener('mouseover', moveNoButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            if (currentStep === 0) {
+                e.preventDefault();
+                moveNoButton();
+            }
+        });
 
-        // No ခလုတ် နှိပ်သည့်အခါ အဆင့်အလိုက် အလုပ်လုပ်ခြင်း
+        // Click Event (ဖုန်းမှာ ရော ကွန်ပျူတာမှာပါ သေချာ အလုပ်လုပ်စေရန်)
         noBtn.addEventListener('click', () => {
-            // Step 2: No နှိပ်တိုင်း Yes ကြီးလာမည်
-            if (currentStep === 1) {
+            if (currentStep === 0) {
+                moveNoButton();
+            }
+            else if (currentStep === 1) {
                 step2Scale += 0.3;
                 yesBtn.style.transform = `scale(${step2Scale})`;
             } 
-            // Step 3: No နှိပ်တိုင်း သေးသွားပြီး ၅ ခါနှိပ်ရင် ပျောက်မည်
             else if (currentStep === 2) {
                 step3Clicks++;
                 step3Scale -= 0.18;
@@ -238,7 +239,6 @@
                     noBtn.style.transform = `scale(${step3Scale})`;
                 }
             }
-            // Step 4: No နှိပ်ရင် စာသားပြောင်းမည်
             else if (currentStep === 3) {
                 if (step4Index < step4Messages.length) {
                     noBtn.innerText = step4Messages[step4Index];
@@ -247,32 +247,28 @@
             }
         });
 
-        // Yes နှိပ်ရင် နောက်တစ်ဆင့် တက်ခြင်း
+        // Yes ခလုတ် နှိပ်ရင် အဆင့်တက်ရန်
         yesBtn.addEventListener('click', () => {
             currentStep++;
 
-            // ခလုတ် Styling များကို မူလအတိုင်း ပြန်ပြင်ခြင်း
             noBtn.style.position = 'static';
             noBtn.style.display = 'inline-block';
             noBtn.style.transform = 'scale(1)';
             yesBtn.style.transform = 'scale(1)';
 
             if (currentStep < steps.length) {
-                // အဆင့်အသစ်သို့ ပြောင်းခြင်း
                 stepTag.innerText = steps[currentStep].tag;
                 sticker.innerText = steps[currentStep].sticker;
                 questionText.innerText = steps[currentStep].question;
                 yesBtn.innerText = steps[currentStep].yesText;
                 noBtn.innerText = steps[currentStep].noText;
             } else {
-                // နောက်ဆုံးအဆင့်ပြီးပါက မိုးစက်မိုးရွာကျပြီး Letter ပြခြင်း
                 questionCard.classList.add('hidden');
                 letterCard.classList.remove('hidden');
                 startHeartRain();
             }
         });
 
-        // အသဲပုံ မိုးရွာသည့် Function
         function startHeartRain() {
             const hearts = ['❤️', '💖', '💗', '💕', '🌹', '✨'];
             setInterval(() => {
@@ -280,7 +276,7 @@
                 heart.classList.add('heart-rain');
                 heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
                 heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDuration = Math.random() * 2 + 3 + 's'; // ၃ စက္ကန့်မှ ၅ စက္ကန့်အထိ
+                heart.style.animationDuration = Math.random() * 2 + 3 + 's';
                 heart.style.fontSize = Math.random() * 15 + 15 + 'px';
                 document.body.appendChild(heart);
 
