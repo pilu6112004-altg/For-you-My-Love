@@ -12,7 +12,8 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            font-family: 'Pyidaungsu', sans-serif;
+            font-family: sans-serif;
+            overflow: hidden;
         }
 
         .card {
@@ -25,15 +26,16 @@
             position: relative;
         }
 
+        /* Sticker ဒီဇိုင်း */
         .sticker {
-            font-size: 60px;
-            margin-bottom: 10px;
+            font-size: 65px;
+            margin-bottom: 15px;
             animation: pulse 1.5s infinite alternate;
         }
 
         @keyframes pulse {
             0% { transform: scale(1); }
-            100% { transform: scale(1.15); }
+            100% { transform: scale(1.1); }
         }
 
         h2 {
@@ -45,11 +47,11 @@
 
         .btn-group {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
+            gap: 25px;
             position: relative;
-            height: 50px;
-            width: 100%;
+            min-height: 50px;
         }
 
         button {
@@ -59,21 +61,20 @@
             border: none;
             border-radius: 20px;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.2s ease;
         }
 
+        /* ဘယ်ဘက် No ခလုတ် */
+        #noBtn {
+            background-color: #f0f0f0;
+            color: #666;
+        }
+
+        /* ညာဘက် Yes ခလုတ် */
         #yesBtn {
             background-color: #ff4081;
             color: white;
             box-shadow: 0 3px 8px rgba(255, 64, 129, 0.4);
-        }
-
-        #noBtn {
-            background-color: #f0f0f0;
-            color: #666;
-            position: absolute;
-            right: 0;
-            top: 0;
             z-index: 10;
         }
 
@@ -91,14 +92,13 @@
 <body>
 
     <div class="card" id="questionCard">
-        <!-- Sticker အသဲပုံ ပြထားသည့်နေရာ -->
         <div class="sticker">💖🥺💖</div>
         
-        <h2>ၼၢႆးၼၢႆးၸွင်ႇၸႂ်ထိုင်လၢၼ်လၢၼ်ႁႃႉ?</h2>
+        <h2>ႁၢႆလွင်ႈၸႂ်လမ်လႆႈယဝ်ႉၼႃႈၵူၼ်းလီဝေ?</h2>
         
         <div class="btn-group">
-            <button id="yesBtn">ၸႂ်ထိုင် ❤️</button>
             <button id="noBtn">ဢမ်ႇ ❌</button>
+            <button id="yesBtn">ႁၢႆယဝ်ႉ ❤️</button>
         </div>
     </div>
 
@@ -107,8 +107,8 @@
         <h2 style="color: #ff4081;">Confession Letter</h2>
         <div class="letter-content">
             <p>
-                ၶႅၼ်းၸႂ်ထိုင်ၼၢႆးၼၢႆး မိူၼ်ၵၼ်ယဝ်ႉၶႃႈ ၼၢႆးၼၢႆးတမ်ႉဢမ်ႇ
-                လၢတ်ႈတေႃႇလၢၼ်သေပွၵ်ႈ ။ ❤️
+                ယေး ဝႃႈယူႇလႄႇ ၼွင်ႉတိုၼ်းဢမ်ႇၸႂ်လမ်ပီႈပီႈ လီႁၵ်ႉထူၼ်ႈယဝ်ႉ
+                ၼွင်ႉၼွင်ႉၼႆႉ ပီႈပီႈႁၵ်ႉၼႃႈ။ ❤️
             </p>
         </div>
     </div>
@@ -119,26 +119,15 @@
         const questionCard = document.getElementById('questionCard');
         const letterCard = document.getElementById('letterCard');
 
-        // No ခလုတ်ကို ထိလိုက်လျှင် သို့မဟုတ် မောက်စ်တင်လိုက်လျှင် လွတ်အောင်ပြေးရန်
-        function moveButton() {
-            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
-            
-            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
-            
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = `${randomX}px`;
-            noBtn.style.top = `${randomY}px`;
-        }
+        let scaleFactor = 1;
 
-        noBtn.addEventListener('mouseover', moveButton);
-        noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // ဖုန်းထဲမှာ နှိပ်မရအောင် တားဆီးပေးသည်
-            moveButton();
+        // No ခလုတ် နှိပ်တိုင်း Yes ခလုတ် ကြီးလာစေရန်
+        noBtn.addEventListener('click', () => {
+            scaleFactor += 0.4; // နှိပ်လိုက်တိုင်း Yes က သိသိသာသာ ကြီးလာမည်
+            yesBtn.style.transform = `scale(${scaleFactor})`;
         });
 
-        // Yes ခလုတ်နှိပ်လျှင် စာလွှာပေါ်လာစေရန်
+        // Yes ခလုတ် နှိပ်လျှင် Confession Letter ပေါ်လာစေရန်
         yesBtn.addEventListener('click', () => {
             questionCard.classList.add('hidden');
             letterCard.classList.remove('hidden');
