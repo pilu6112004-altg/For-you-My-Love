@@ -12,63 +12,90 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            font-family: sans-serif;
+            font-family: 'Pyidaungsu', sans-serif;
         }
 
         .card {
             background: white;
-            padding: 30px;
+            padding: 30px 20px;
             border-radius: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             text-align: center;
-            max-width: 300px;
+            width: 280px;
             position: relative;
         }
 
-        .character img {
-            width: 100px;
+        .sticker {
+            font-size: 60px;
+            margin-bottom: 10px;
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.15); }
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 25px;
+            line-height: 1.5;
         }
 
         .btn-group {
-            margin-top: 20px;
             display: flex;
-            justify-content: center;
-            gap: 15px;
+            justify-content: space-between;
+            align-items: center;
             position: relative;
             height: 50px;
+            width: 100%;
         }
 
         button {
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 10px 22px;
+            font-size: 15px;
+            font-weight: bold;
             border: none;
             border-radius: 20px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: transform 0.2s;
         }
 
         #yesBtn {
             background-color: #ff4081;
             color: white;
+            box-shadow: 0 3px 8px rgba(255, 64, 129, 0.4);
         }
 
         #noBtn {
-            background-color: #e0e0e0;
-            color: #333;
+            background-color: #f0f0f0;
+            color: #666;
             position: absolute;
+            right: 0;
+            top: 0;
+            z-index: 10;
         }
 
         .hidden {
             display: none;
         }
+
+        .letter-content {
+            font-size: 15px;
+            color: #444;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
+
     <div class="card" id="questionCard">
-        <div class="character">
-            <img src="https://i.pinimg.com/originals/f6/a5/f7/f6a5f781a70ff5388e6e5894b5952f20.gif" alt="Cute character">
-        </div>
+        <!-- Sticker အသဲပုံ ပြထားသည့်နေရာ -->
+        <div class="sticker">💖🥺💖</div>
+        
         <h2>ၼွင်ႉၼွင်ႉၸွင်ႇႁၵ်ႉပီႈပီႈႁႃႉ?</h2>
+        
         <div class="btn-group">
             <button id="yesBtn">ႁၵ်ႉဢေႃႈ ❤️</button>
             <button id="noBtn">ဢမ်ႇႁၵ်ႉ ❌</button>
@@ -76,11 +103,14 @@
     </div>
 
     <div class="card hidden" id="letterCard">
-        <h2>💌 Confession Letter 💌</h2>
-        <p>
-            ၶွပ်ႈၸႂ်ၼႃႈ ၵူၼ်းလီဝေ တီႈဢမ်ႇပွႆႇမိုဝ်းၵၼ် တီႈႁၵ်ႉၵၼ်မႃး
-          တေႃႇထိုင်ဝၼ်းမိူဝ်ႈၼႆႉ ႁၵ်ႉထူၼ်ႈယဝ်ႉၶႃႈ ။ ❤️
-        </p>
+        <div class="sticker">💌</div>
+        <h2 style="color: #ff4081;">Confession Letter</h2>
+        <div class="letter-content">
+            <p>
+                ၶွပ်ႈၸႂ်ၵူႈလွင်ႈ ၵူၼ်းလီဝေ တီႈဢမ်ႇပွႆႇမိုဝ်းၵၼ်
+                တေႃႇထိုင်ဝၼ်းမိူဝ်ႈၼႆႉ ႁၵ်ႉၼမ်ၼမ်ၼႃႈ။ ❤️
+            </p>
+        </div>
     </div>
 
     <script>
@@ -89,22 +119,31 @@
         const questionCard = document.getElementById('questionCard');
         const letterCard = document.getElementById('letterCard');
 
-        noBtn.addEventListener('mouseover', moveButton);
-        noBtn.addEventListener('touchstart', moveButton);
-
+        // No ခလုတ်ကို ထိလိုက်လျှင် သို့မဟုတ် မောက်စ်တင်လိုက်လျှင် လွတ်အောင်ပြေးရန်
         function moveButton() {
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 50);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 50);
+            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+            
+            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
             
             noBtn.style.position = 'fixed';
-            noBtn.style.left = `${x}px`;
-            noBtn.style.top = `${y}px`;
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
         }
 
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // ဖုန်းထဲမှာ နှိပ်မရအောင် တားဆီးပေးသည်
+            moveButton();
+        });
+
+        // Yes ခလုတ်နှိပ်လျှင် စာလွှာပေါ်လာစေရန်
         yesBtn.addEventListener('click', () => {
             questionCard.classList.add('hidden');
             letterCard.classList.remove('hidden');
         });
     </script>
+
 </body>
 </html>
