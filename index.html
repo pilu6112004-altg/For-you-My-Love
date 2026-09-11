@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confession Letter</title>
+    <style>
+        body {
+            background-color: #fce4ec;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 300px;
+            position: relative;
+        }
+
+        .character img {
+            width: 100px;
+        }
+
+        .btn-group {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            position: relative;
+            height: 50px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        #yesBtn {
+            background-color: #ff4081;
+            color: white;
+        }
+
+        #noBtn {
+            background-color: #e0e0e0;
+            color: #333;
+            position: absolute;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="card" id="questionCard">
+        <div class="character">
+            <img src="https://i.pinimg.com/originals/f6/a5/f7/f6a5f781a70ff5388e6e5894b5952f20.gif" alt="Cute character">
+        </div>
+        <h2>ၼွင်ႉၼွင်ႉၸွင်ႇႁၵ်ႉပီႈပီႈႁႃႉ?</h2>
+        <div class="btn-group">
+            <button id="yesBtn">ႁၵ်ႉဢေႃႈ ❤️</button>
+            <button id="noBtn">ဢမ်ႇႁၵ်ႉ ❌</button>
+        </div>
+    </div>
+
+    <div class="card hidden" id="letterCard">
+        <h2>💌 Confession Letter 💌</h2>
+        <p>
+            ၶွပ်ႈၸႂ်ၼႃႈ ၵူၼ်းလီဝေ တီႈဢမ်ႇပွႆႇမိုဝ်းၵၼ် တီႈႁၵ်ႉၵၼ်မႃး
+          တေႃႇထိုင်ဝၼ်းမိူဝ်ႈၼႆႉ ႁၵ်ႉထူၼ်ႈယဝ်ႉၶႃႈ ။ ❤️
+        </p>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const questionCard = document.getElementById('questionCard');
+        const letterCard = document.getElementById('letterCard');
+
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', moveButton);
+
+        function moveButton() {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 50);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 50);
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+        }
+
+        yesBtn.addEventListener('click', () => {
+            questionCard.classList.add('hidden');
+            letterCard.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
